@@ -15,7 +15,7 @@ Cluster,N_cells,Original_Coarse,Original_Coarse_Purity,Original_Fine,Original_Fi
 13,15747,Neutrophils,0.9592938337461103,Neu3,0.8289832984060456,Neutrophils,1.0,Neutrophils (S100A8+),1.0
 14,15730,T cells,0.9912269548633185,CD8_CTL,0.28887476160203435,T cells,1.0,NK/T cells (Cytotoxic),1.0
 15,13753,B cells,0.992074456482222,NB2,0.7565622046099033,B cells,1.0,B cells (Mature),1.0
-16,9655,Proliferating,0.6716727084412222,PB1,0.6480580010357327,Proliferating,1.0,Proliferating cells,1.0
+16,9655,Plasmablast,0.6716727084412222,PB1,0.6480580010357327,Proliferating,1.0,Proliferating cells,1.0
 17,6709,Plasma cells,0.8317185869727232,PC1,0.46743180801907885,Plasma cells,1.0,Plasma cells (IGKG+),1.0
 18,6622,T cells,0.99879190576865,CD8_TEM,0.8595590456055572,NK cells,1.0,NK cells,1.0
 19,6237,Neutrophils,0.8358185024851692,GMP,0.9050825717492385,Neutrophils,1.0,Neutrophils (Immature),1.0

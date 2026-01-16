@@ -32,6 +32,49 @@
 - **Completeness**: Whether all members of a class are in the same cluster
 - **V-measure**: Harmonic mean of homogeneity and completeness
 
+## Cluster-Level Agreement
+
+**Agreement Rate** (how many clusters have matching annotations):
+
+- **Coarse Level**: 23/31 clusters (74.2%)
+- **Fine Level**: 0/31 clusters (0.0%)
+
+### All Clusters Comparison
+
+| Cluster | N_cells | Original_Coarse | Agent_Major | Match | Original_Fine | Agent_Refined | Match |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 | 54816 | B cells | B cells | ✓ | NB1 | B cells (Naive) | ✗ |
+| 1 | 48815 | Macrophages | Macrophages | ✓ | MQ1 | Macrophages (C1Q+) | ✗ |
+| 2 | 45294 | Macrophages | Macrophages | ✓ | MQ1 | Macrophages (Resident) | ✗ |
+| 3 | 26236 | T cells | T cells | ✓ | CD4_TEM | T cells (CD4+) | ✗ |
+| 4 | 25025 | Macrophages | Macrophages | ✓ | MQ21 | Macrophages (CD5L+) | ✗ |
+| 5 | 25015 | B cells | B cells | ✓ | MB2 | B cells (Follicular) | ✗ |
+| 6 | 24661 | Macrophages | Macrophages | ✓ | MQ22 | Macrophages (MERTK+) | ✗ |
+| 7 | 22289 | Neutrophils | Neutrophils | ✓ | Neu2 | Neutrophils (Mature) | ✗ |
+| 8 | 19308 | T cells | T cells | ✓ | CD4_N | T cells (Naive) | ✗ |
+| 9 | 19187 | Neutrophils | Monocytes | ✗ | Neu1 | Monocytes (Activated) | ✗ |
+| 10 | 17124 | Plasma cells | Plasma cells | ✓ | PC1 | Plasma cells | ✗ |
+| 11 | 16748 | Monocytes | Monocytes | ✓ | IM | Monocytes (Classical) | ✗ |
+| 12 | 15950 | B cells | B cells | ✓ | NB3 | B cells (Pro-B) | ✗ |
+| 13 | 15747 | Neutrophils | Neutrophils | ✓ | Neu3 | Neutrophils (S100A8+) | ✗ |
+| 14 | 15730 | T cells | T cells | ✓ | CD8_CTL | NK/T cells (Cytotoxic) | ✗ |
+| 15 | 13753 | B cells | B cells | ✓ | NB2 | B cells (Mature) | ✗ |
+| 16 | 9655 | Plasmablast | Proliferating | ✗ | PB1 | Proliferating cells | ✗ |
+| 17 | 6709 | Plasma cells | Plasma cells | ✓ | PC1 | Plasma cells (IGKG+) | ✗ |
+| 18 | 6622 | T cells | NK cells | ✗ | CD8_TEM | NK cells | ✗ |
+| 19 | 6237 | Neutrophils | Neutrophils | ✓ | GMP | Neutrophils (Immature) | ✗ |
+| 20 | 4677 | B cells | B cells | ✓ | MB1 | B cells (Memory) | ✗ |
+| 21 | 3440 | T cells | NK cells | ✗ | NK | NK cells (GZMB+) | ✗ |
+| 22 | 3230 | Monocytes | Dendritic cells | ✗ | cDC2 | Dendritic cells | ✗ |
+| 23 | 3059 | B cells | B cells | ✓ | ImmB | Pro-B cells (RAG+) | ✗ |
+| 24 | 2971 | Dendritic cells | B cells | ✗ | pDC | B cells (IRF8+) | ✗ |
+| 25 | 2921 | B cells | B cells | ✓ | PC2 | B cells (Ribosomal high) | ✗ |
+| 26 | 1818 | Neutrophils | Neutrophils | ✓ | Platelet | Neutrophils (RNASE+) | ✗ |
+| 27 | 1328 | Monocytes | Mast cells | ✗ | Mast | Mast cells | ✗ |
+| 28 | 1262 | Monocytes | Endothelial | ✗ | HSC | Endothelial cells | ✗ |
+| 29 | 1067 | Neutrophils | Neutrophils | ✓ | Neu2 | Neutrophils (PGLYRP+) | ✗ |
+| 30 | 408 | Macrophages | Macrophages | ✓ | MQ22 | Macrophages (Lipid) | ✗ |
+
 ## Cluster-level Purity
 
 | Statistic | Original_Coarse_Purity | Original_Fine_Purity | Agent_Major_Purity | Agent_Refined_Purity |
@@ -62,8 +105,9 @@
 
 ## Files Generated
 
-- `annotation_metrics.csv`: Detailed performance metrics
-- `cluster_level_agreement.csv`: Per-cluster annotation comparison
+- `annotation_metrics.csv`: Detailed performance metrics (ARI, NMI, etc.)
+- `cluster_match_analysis.csv`: Cluster-by-cluster agreement analysis
+- `cluster_level_agreement.csv`: Per-cluster purity metrics
 - `confusion_matrix_coarse.png`: Coarse-level confusion matrix
 - `confusion_matrix_fine.png`: Fine-level confusion matrix
 - `purity_comparison.png`: Cluster purity comparison plots

@@ -44,7 +44,7 @@ def normalize_cell_type_names(label):
         'Monocyte': 'Monocytes',  # Alternative form
         'Mast': 'Mast cells',
         'Endo': 'Endothelial',
-        'PB': 'Proliferating',  # Plasmablasts (proliferating B cells)
+        'PB': 'Plasmablast',  # Plasmablasts
     }
 
     # Apply mapping if found
@@ -98,6 +98,66 @@ def calculate_metrics(true_labels, pred_labels, method_name):
     }
 
     return metrics
+
+
+def calculate_cluster_agreement_rate(df, cluster_col='louvain'):
+    """
+    Calculate cluster-level agreement rate.
+    For each cluster, check if the most common original annotation
+    matches the most common agent annotation.
+    """
+    clusters = df[cluster_col].unique()
+
+    matches = {
+        'coarse': 0,
+        'fine': 0,
+        'total': len(clusters)
+    }
+
+    cluster_details = []
+
+    for cluster in sorted(clusters):
+        cluster_cells = df[df[cluster_col] == cluster]
+        n_cells = len(cluster_cells)
+
+        # Get most common types
+        orig_coarse = cluster_cells['original_cl_ct_normalized'].mode()[0]
+        orig_fine = cluster_cells['original_sbcl_ct'].mode()[0]
+        agent_major = cluster_cells['major_cell_type'].mode()[0]
+        agent_refined = cluster_cells['cell_type_refined'].mode()[0]
+
+        # Check matches
+        coarse_match = (orig_coarse == agent_major)
+        fine_match = (orig_fine == agent_refined)
+
+        if coarse_match:
+            matches['coarse'] += 1
+        if fine_match:
+            matches['fine'] += 1
+
+        cluster_details.append({
+            'Cluster': cluster,
+            'N_cells': n_cells,
+            'Original_Coarse': orig_coarse,
+            'Agent_Major': agent_major,
+            'Coarse_Match': '✓' if coarse_match else '✗',
+            'Original_Fine': orig_fine,
+            'Agent_Refined': agent_refined,
+            'Fine_Match': '✓' if fine_match else '✗'
+        })
+
+    # Calculate agreement rates
+    coarse_rate = matches['coarse'] / matches['total']
+    fine_rate = matches['fine'] / matches['total']
+
+    return {
+        'rates': {
+            'coarse': coarse_rate,
+            'fine': fine_rate,
+            'matches': matches
+        },
+        'details': pd.DataFrame(cluster_details)
+    }
 
 
 def cluster_level_agreement(df, cluster_col='louvain'):
@@ -249,12 +309,29 @@ def main():
     metrics_df.to_csv(metrics_path, index=False)
     print(f"\nSaved metrics: {metrics_path}")
 
-    # Cluster-level agreement
+    # Cluster-level agreement rate
     print("\n3. Calculating cluster-level agreement...")
+    cluster_match_result = calculate_cluster_agreement_rate(df)
+    cluster_match_details = cluster_match_result['details']
+    cluster_match_rates = cluster_match_result['rates']
+
+    # Save cluster match details
+    cluster_match_path = output_dir / "cluster_match_analysis.csv"
+    cluster_match_details.to_csv(cluster_match_path, index=False)
+    print(f"Saved cluster match analysis: {cluster_match_path}")
+
+    print("\n" + "="*80)
+    print("Cluster-Level Agreement Rates:")
+    print("="*80)
+    print(f"Coarse Level: {cluster_match_rates['matches']['coarse']}/{cluster_match_rates['matches']['total']} clusters match ({cluster_match_rates['coarse']*100:.1f}%)")
+    print(f"Fine Level:   {cluster_match_rates['matches']['fine']}/{cluster_match_rates['matches']['total']} clusters match ({cluster_match_rates['fine']*100:.1f}%)")
+
+    # Also calculate purity (original function)
+    print("\n4. Calculating cluster-level purity...")
     cluster_agreement = cluster_level_agreement(df)
     cluster_path = output_dir / "cluster_level_agreement.csv"
     cluster_agreement.to_csv(cluster_path, index=False)
-    print(f"Saved cluster agreement: {cluster_path}")
+    print(f"Saved cluster purity analysis: {cluster_path}")
 
     # Summary statistics
     print("\n" + "="*80)
@@ -267,7 +344,7 @@ def main():
         print(f"{col:30s}: Mean={mean_purity:.3f}, Median={median_purity:.3f}")
 
     # Plot confusion matrices
-    print("\n4. Generating confusion matrices...")
+    print("\n5. Generating confusion matrices...")
     plot_confusion_matrix(
         df['original_cl_ct_normalized'],
         df['major_cell_type'],
@@ -283,11 +360,11 @@ def main():
     )
 
     # Plot purity comparison
-    print("\n5. Generating purity comparison plots...")
+    print("\n6. Generating purity comparison plots...")
     plot_purity_comparison(cluster_agreement, output_dir / "purity_comparison.png")
 
     # Create summary report
-    print("\n6. Creating summary report...")
+    print("\n7. Creating summary report...")
     report_path = output_dir / "EVALUATION_REPORT.md"
 
     with open(report_path, 'w') as f:
@@ -319,6 +396,18 @@ def main():
         f.write("- **Completeness**: Whether all members of a class are in the same cluster\n")
         f.write("- **V-measure**: Harmonic mean of homogeneity and completeness\n\n")
 
+        f.write("## Cluster-Level Agreement\n\n")
+        f.write("**Agreement Rate** (how many clusters have matching annotations):\n\n")
+        f.write(f"- **Coarse Level**: {cluster_match_rates['matches']['coarse']}/{cluster_match_rates['matches']['total']} clusters ({cluster_match_rates['coarse']*100:.1f}%)\n")
+        f.write(f"- **Fine Level**: {cluster_match_rates['matches']['fine']}/{cluster_match_rates['matches']['total']} clusters ({cluster_match_rates['fine']*100:.1f}%)\n\n")
+
+        f.write("### All Clusters Comparison\n\n")
+        f.write("| Cluster | N_cells | Original_Coarse | Agent_Major | Match | Original_Fine | Agent_Refined | Match |\n")
+        f.write("| --- | --- | --- | --- | --- | --- | --- | --- |\n")
+        for _, row in cluster_match_details.iterrows():
+            f.write(f"| {row['Cluster']} | {row['N_cells']} | {row['Original_Coarse']} | {row['Agent_Major']} | {row['Coarse_Match']} | {row['Original_Fine']} | {row['Agent_Refined']} | {row['Fine_Match']} |\n")
+        f.write("\n")
+
         f.write("## Cluster-level Purity\n\n")
         purity_summary = cluster_agreement[['Original_Coarse_Purity', 'Original_Fine_Purity',
                                            'Agent_Major_Purity', 'Agent_Refined_Purity']].describe()
@@ -340,8 +429,9 @@ def main():
         f.write("\n")
 
         f.write("## Files Generated\n\n")
-        f.write("- `annotation_metrics.csv`: Detailed performance metrics\n")
-        f.write("- `cluster_level_agreement.csv`: Per-cluster annotation comparison\n")
+        f.write("- `annotation_metrics.csv`: Detailed performance metrics (ARI, NMI, etc.)\n")
+        f.write("- `cluster_match_analysis.csv`: Cluster-by-cluster agreement analysis\n")
+        f.write("- `cluster_level_agreement.csv`: Per-cluster purity metrics\n")
         f.write("- `confusion_matrix_coarse.png`: Coarse-level confusion matrix\n")
         f.write("- `confusion_matrix_fine.png`: Fine-level confusion matrix\n")
         f.write("- `purity_comparison.png`: Cluster purity comparison plots\n")
