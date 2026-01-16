@@ -1,8 +1,12 @@
-# scRNA-seq Analysis Pipeline with Automated Reporting
+# scAnnoist
+
+> **sc** (single-cell) + **Anno** (annotation) + **ist** (specialist)
+
+AI-powered single-cell RNA-seq analysis pipeline with automated cell type annotation and reporting.
 
 ## 🎯 주요 기능
 
-이 파이프라인은 scRNA-seq 데이터 분석을 완전 자동화하고, PowerPoint 리포트를 자동 생성합니다.
+scAnnoist는 scRNA-seq 데이터 분석을 완전 자동화하고, PowerPoint 리포트를 자동 생성하는 multi-agent 시스템입니다.
 
 ### ✨ 핵심 특징
 
