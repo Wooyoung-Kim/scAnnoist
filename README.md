@@ -56,14 +56,16 @@ scAnnoist의 cell type annotation 성능을 실제 데이터셋(Spleen, 461k cel
 
 | 메트릭 | Coarse Level | Fine Level |
 |--------|--------------|------------|
-| **ARI** | **0.853** ⭐ | 0.590 |
+| **클러스터 일치율** | **74.2%** (23/31) ⭐ | - |
+| **ARI** | **0.853** | 0.590 |
 | **NMI** | 0.802 | **0.772** |
 | **클러스터 순도** | **100%** | **100%** |
 
 **핵심 성과:**
-- ✅ 기존 annotation과 **85.3% 일치도** (Coarse level)
+- ✅ **31개 클러스터 중 23개 (74.2%)가 기존 annotation과 정확히 일치** (Coarse level)
 - ✅ **100% 클러스터 순도** - 모든 클러스터가 단일 cell type으로 일관되게 annotation
 - ✅ 41개 → 31개 타입으로 최적화하면서도 **높은 정확도 유지** (NMI 0.772)
+- ✅ Cell-level ARI **0.853** - 기존 방법과 매우 높은 일치도
 
 자세한 평가 결과: [`examples/spleen_analysis_results/performance_evaluation/`](examples/spleen_analysis_results/performance_evaluation/)
 
