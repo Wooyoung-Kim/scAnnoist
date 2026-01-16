@@ -26,11 +26,51 @@ import seaborn as sns
 from pathlib import Path
 
 
+def normalize_cell_type_names(label):
+    """
+    Normalize cell type names to a consistent format.
+    Maps abbreviated forms to full names for fair comparison.
+    """
+    # Mapping dictionary for original abbreviated names
+    name_mapping = {
+        'B': 'B cells',
+        'T': 'T cells',
+        'MQ': 'Macrophages',
+        'Neutrophil': 'Neutrophils',
+        'PC': 'Plasma cells',
+        'NK': 'NK cells',
+        'DC': 'Dendritic cells',
+        'Mono': 'Monocytes',
+        'Monocyte': 'Monocytes',  # Alternative form
+        'Mast': 'Mast cells',
+        'Endo': 'Endothelial',
+        'PB': 'Proliferating',  # Plasmablasts (proliferating B cells)
+    }
+
+    # Apply mapping if found
+    if label in name_mapping:
+        return name_mapping[label]
+
+    # Return as-is if no mapping needed
+    return label
+
+
 def load_annotations(csv_path):
     """Load cell type annotations."""
     df = pd.read_csv(csv_path, index_col=0)
     print(f"Loaded {len(df):,} cells")
     print(f"Columns: {df.columns.tolist()}")
+
+    # Normalize original annotation names
+    print("\nNormalizing cell type names...")
+    df['original_cl_ct_normalized'] = df['original_cl_ct'].apply(normalize_cell_type_names)
+
+    # Check mapping results
+    original_types = df['original_cl_ct'].unique()
+    normalized_types = df['original_cl_ct_normalized'].unique()
+    print(f"Original types ({len(original_types)}): {sorted(original_types)}")
+    print(f"Normalized types ({len(normalized_types)}): {sorted(normalized_types)}")
+
     return df
 
 
@@ -69,14 +109,14 @@ def cluster_level_agreement(df, cluster_col='louvain'):
         cluster_cells = df[df[cluster_col] == cluster]
         n_cells = len(cluster_cells)
 
-        # Get most common cell type for each annotation method
-        original_coarse = cluster_cells['original_cl_ct'].mode()[0] if len(cluster_cells['original_cl_ct'].mode()) > 0 else 'NA'
+        # Get most common cell type for each annotation method (using normalized names)
+        original_coarse = cluster_cells['original_cl_ct_normalized'].mode()[0] if len(cluster_cells['original_cl_ct_normalized'].mode()) > 0 else 'NA'
         original_fine = cluster_cells['original_sbcl_ct'].mode()[0] if len(cluster_cells['original_sbcl_ct'].mode()) > 0 else 'NA'
         agent_major = cluster_cells['major_cell_type'].mode()[0] if len(cluster_cells['major_cell_type'].mode()) > 0 else 'NA'
         agent_refined = cluster_cells['cell_type_refined'].mode()[0] if len(cluster_cells['cell_type_refined'].mode()) > 0 else 'NA'
 
-        # Calculate purity for each annotation
-        original_coarse_purity = (cluster_cells['original_cl_ct'] == original_coarse).sum() / n_cells
+        # Calculate purity for each annotation (using normalized names)
+        original_coarse_purity = (cluster_cells['original_cl_ct_normalized'] == original_coarse).sum() / n_cells
         original_fine_purity = (cluster_cells['original_sbcl_ct'] == original_fine).sum() / n_cells
         agent_major_purity = (cluster_cells['major_cell_type'] == agent_major).sum() / n_cells
         agent_refined_purity = (cluster_cells['cell_type_refined'] == agent_refined).sum() / n_cells
@@ -184,12 +224,12 @@ def main():
 
     # Calculate metrics
     print("\n2. Calculating performance metrics...")
-    print("\nComparing annotation levels:")
+    print("\nComparing annotation levels (with normalized names):")
 
     comparisons = [
-        ('original_cl_ct', 'major_cell_type', 'Original Coarse vs Agent Major'),
+        ('original_cl_ct_normalized', 'major_cell_type', 'Original Coarse vs Agent Major'),
         ('original_sbcl_ct', 'cell_type_refined', 'Original Fine vs Agent Refined'),
-        ('original_cl_ct', 'cell_type_refined', 'Original Coarse vs Agent Refined'),
+        ('original_cl_ct_normalized', 'cell_type_refined', 'Original Coarse vs Agent Refined'),
         ('original_sbcl_ct', 'major_cell_type', 'Original Fine vs Agent Major'),
     ]
 
@@ -229,9 +269,9 @@ def main():
     # Plot confusion matrices
     print("\n4. Generating confusion matrices...")
     plot_confusion_matrix(
-        df['original_cl_ct'],
+        df['original_cl_ct_normalized'],
         df['major_cell_type'],
-        'Original Coarse vs Agent Major Cell Types',
+        'Original Coarse vs Agent Major Cell Types (Normalized)',
         output_dir / "confusion_matrix_coarse.png"
     )
 
@@ -258,7 +298,7 @@ def main():
 
         f.write("## Annotation Methods Compared\n\n")
         f.write("**Original Method:**\n")
-        f.write(f"- Coarse level: {df['original_cl_ct'].nunique()} cell types\n")
+        f.write(f"- Coarse level: {df['original_cl_ct_normalized'].nunique()} cell types (normalized from {df['original_cl_ct'].nunique()} abbreviated forms)\n")
         f.write(f"- Fine level: {df['original_sbcl_ct'].nunique()} cell types\n\n")
 
         f.write("**Agent-based Method (scAnnoist):**\n")

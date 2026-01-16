@@ -8,7 +8,7 @@
 ## Annotation Methods Compared
 
 **Original Method:**
-- Coarse level: 8 cell types
+- Coarse level: 8 cell types (normalized from 8 abbreviated forms)
 - Fine level: 41 cell types
 
 **Agent-based Method (scAnnoist):**
@@ -49,16 +49,16 @@
 
 | Cluster | N_cells | Original_Coarse | Agent_Major | Original_Coarse_Purity | Agent_Major_Purity |
 | --- | --- | --- | --- | --- | --- |
-| 0 | 54816 | B | B cells | 0.9261711908931699 | 1.0 |
-| 1 | 48815 | MQ | Macrophages | 0.9991191232203216 | 1.0 |
-| 2 | 45294 | MQ | Macrophages | 0.9825363182761514 | 1.0 |
-| 3 | 26236 | T | T cells | 0.9993520353712456 | 1.0 |
-| 4 | 25025 | MQ | Macrophages | 0.998001998001998 | 1.0 |
-| 5 | 25015 | B | B cells | 0.998360983409954 | 1.0 |
-| 6 | 24661 | MQ | Macrophages | 0.9545841612262277 | 1.0 |
-| 7 | 22289 | Neutrophil | Neutrophils | 0.9380860514154964 | 1.0 |
-| 8 | 19308 | T | T cells | 0.9804226227470478 | 1.0 |
-| 9 | 19187 | Neutrophil | Monocytes | 0.9163496117162663 | 1.0 |
+| 0 | 54816 | B cells | B cells | 0.9261711908931699 | 1.0 |
+| 1 | 48815 | Macrophages | Macrophages | 0.9991191232203216 | 1.0 |
+| 2 | 45294 | Macrophages | Macrophages | 0.9825363182761514 | 1.0 |
+| 3 | 26236 | T cells | T cells | 0.9993520353712456 | 1.0 |
+| 4 | 25025 | Macrophages | Macrophages | 0.998001998001998 | 1.0 |
+| 5 | 25015 | B cells | B cells | 0.998360983409954 | 1.0 |
+| 6 | 24661 | Macrophages | Macrophages | 0.9545841612262277 | 1.0 |
+| 7 | 22289 | Neutrophils | Neutrophils | 0.9380860514154964 | 1.0 |
+| 8 | 19308 | T cells | T cells | 0.9804226227470478 | 1.0 |
+| 9 | 19187 | Neutrophils | Monocytes | 0.9163496117162663 | 1.0 |
 
 ## Files Generated
 
