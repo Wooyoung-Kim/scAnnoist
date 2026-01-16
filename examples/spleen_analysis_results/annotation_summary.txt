@@ -1,0 +1,91 @@
+SPLEEN scRNA-seq ANNOTATION SUMMARY
+================================================================================
+
+Total cells analyzed: 461,102
+Number of clusters: 31
+Number of refined cell types: 31
+Number of major cell types: 11
+
+Major Cell Type Distribution:
+----------------------------------------
+Macrophages              :  144,203 (31.27%)
+B cells                  :  123,162 (26.71%)
+T cells                  :   61,274 (13.29%)
+Neutrophils              :   47,158 (10.23%)
+Monocytes                :   35,935 ( 7.79%)
+Plasma cells             :   23,833 ( 5.17%)
+NK cells                 :   10,062 ( 2.18%)
+Proliferating            :    9,655 ( 2.09%)
+Dendritic cells          :    3,230 ( 0.70%)
+Mast cells               :    1,328 ( 0.29%)
+Endothelial              :    1,262 ( 0.27%)
+
+
+Refined Cell Type Distribution:
+----------------------------------------
+B cells (Naive)                    :   54,816 (11.89%)
+Macrophages (C1Q+)                 :   48,815 (10.59%)
+Macrophages (Resident)             :   45,294 ( 9.82%)
+T cells (CD4+)                     :   26,236 ( 5.69%)
+Macrophages (CD5L+)                :   25,025 ( 5.43%)
+B cells (Follicular)               :   25,015 ( 5.43%)
+Macrophages (MERTK+)               :   24,661 ( 5.35%)
+Neutrophils (Mature)               :   22,289 ( 4.83%)
+T cells (Naive)                    :   19,308 ( 4.19%)
+Monocytes (Activated)              :   19,187 ( 4.16%)
+Plasma cells                       :   17,124 ( 3.71%)
+Monocytes (Classical)              :   16,748 ( 3.63%)
+B cells (Pro-B)                    :   15,950 ( 3.46%)
+Neutrophils (S100A8+)              :   15,747 ( 3.42%)
+NK/T cells (Cytotoxic)             :   15,730 ( 3.41%)
+B cells (Mature)                   :   13,753 ( 2.98%)
+Proliferating cells                :    9,655 ( 2.09%)
+Plasma cells (IGKG+)               :    6,709 ( 1.45%)
+NK cells                           :    6,622 ( 1.44%)
+Neutrophils (Immature)             :    6,237 ( 1.35%)
+B cells (Memory)                   :    4,677 ( 1.01%)
+NK cells (GZMB+)                   :    3,440 ( 0.75%)
+Dendritic cells                    :    3,230 ( 0.70%)
+Pro-B cells (RAG+)                 :    3,059 ( 0.66%)
+B cells (IRF8+)                    :    2,971 ( 0.64%)
+B cells (Ribosomal high)           :    2,921 ( 0.63%)
+Neutrophils (RNASE+)               :    1,818 ( 0.39%)
+Mast cells                         :    1,328 ( 0.29%)
+Endothelial cells                  :    1,262 ( 0.27%)
+Neutrophils (PGLYRP+)              :    1,067 ( 0.23%)
+Macrophages (Lipid)                :      408 ( 0.09%)
+
+
+Cluster to Cell Type Mapping:
+----------------------------------------
+Cluster 0 : B cells (Naive)                     (54,816 cells)
+Cluster 1 : Macrophages (C1Q+)                  (48,815 cells)
+Cluster 2 : Macrophages (Resident)              (45,294 cells)
+Cluster 3 : T cells (CD4+)                      (26,236 cells)
+Cluster 4 : Macrophages (CD5L+)                 (25,025 cells)
+Cluster 5 : B cells (Follicular)                (25,015 cells)
+Cluster 6 : Macrophages (MERTK+)                (24,661 cells)
+Cluster 7 : Neutrophils (Mature)                (22,289 cells)
+Cluster 8 : T cells (Naive)                     (19,308 cells)
+Cluster 9 : Monocytes (Activated)               (19,187 cells)
+Cluster 10: Plasma cells                        (17,124 cells)
+Cluster 11: Monocytes (Classical)               (16,748 cells)
+Cluster 12: B cells (Pro-B)                     (15,950 cells)
+Cluster 13: Neutrophils (S100A8+)               (15,747 cells)
+Cluster 14: NK/T cells (Cytotoxic)              (15,730 cells)
+Cluster 15: B cells (Mature)                    (13,753 cells)
+Cluster 16: Proliferating cells                 (9,655 cells)
+Cluster 17: Plasma cells (IGKG+)                (6,709 cells)
+Cluster 18: NK cells                            (6,622 cells)
+Cluster 19: Neutrophils (Immature)              (6,237 cells)
+Cluster 20: B cells (Memory)                    (4,677 cells)
+Cluster 21: NK cells (GZMB+)                    (3,440 cells)
+Cluster 22: Dendritic cells                     (3,230 cells)
+Cluster 23: Pro-B cells (RAG+)                  (3,059 cells)
+Cluster 24: B cells (IRF8+)                     (2,971 cells)
+Cluster 25: B cells (Ribosomal high)            (2,921 cells)
+Cluster 26: Neutrophils (RNASE+)                (1,818 cells)
+Cluster 27: Mast cells                          (1,328 cells)
+Cluster 28: Endothelial cells                   (1,262 cells)
+Cluster 29: Neutrophils (PGLYRP+)               (1,067 cells)
+Cluster 30: Macrophages (Lipid)                 (408 cells)
