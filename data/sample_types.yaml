@@ -1,0 +1,123 @@
+# Sample type definitions with biological constraints
+# Used for biological validation during cell type annotation
+
+sample_types:
+  organoid:
+    description: "In vitro organoid cultures (e.g., ALI airway organoids)"
+    allowed_cell_types:
+      - epithelial
+      - stem_cell
+    forbidden_cell_types:
+      - immune
+      - stromal
+      - endothelial
+    validation_warning: "Organoids should NOT contain immune/stromal cells"
+
+  primary_tissue:
+    description: "Primary tissue samples (e.g., lung biopsy, tumor resection)"
+    allowed_cell_types:
+      - all
+    forbidden_cell_types: []
+    validation_warning: null
+
+  cell_line:
+    description: "Cell line cultures (e.g., A549, HEK293)"
+    allowed_cell_types:
+      - depends_on_line
+    forbidden_cell_types:
+      - mixed_populations
+    validation_warning: "Cell lines should be relatively homogeneous"
+
+  pbmc:
+    description: "Peripheral blood mononuclear cells"
+    allowed_cell_types:
+      - immune
+    forbidden_cell_types:
+      - epithelial
+      - endothelial
+    validation_warning: "PBMCs should only contain immune cells"
+
+# CellTypist model recommendations by tissue type
+celltypist_models:
+  lung_airway:
+    model: "Cells_Lung_Airway.pkl"
+    cell_types: 78
+    description: "Human lung and airway epithelial cells"
+
+  lung_immune:
+    model: "Immune_All_Low.pkl"
+    cell_types: 98
+    description: "Broad immune cell classification"
+
+  pbmc:
+    model: "Immune_All_High.pkl"
+    cell_types: 32
+    description: "Peripheral blood mononuclear cells"
+
+  gut:
+    model: "Cells_Intestinal_Tract.pkl"
+    cell_types: 50
+    description: "Intestinal epithelial and immune cells"
+
+  general:
+    model: "Immune_All_Low.pkl"
+    cell_types: 98
+    description: "General purpose model"
+
+# Marker disambiguation rules for context-dependent interpretation
+ambiguous_markers:
+  S100A8:
+    common_interpretation: "Neutrophil"
+    context_dependent:
+      organoid: "Stress response / damage marker in epithelial cells"
+      primary_tissue: "Could be neutrophil or stressed epithelial"
+      cell_line: "Stress response marker"
+    recommendation: "Check for canonical neutrophil markers (FCGR3B, CSF3R, CXCR2)"
+
+  S100A9:
+    common_interpretation: "Neutrophil"
+    context_dependent:
+      organoid: "Stress response / damage marker in epithelial cells"
+      primary_tissue: "Could be neutrophil or stressed epithelial"
+      cell_line: "Stress response marker"
+    recommendation: "Check for canonical neutrophil markers (FCGR3B, CSF3R, CXCR2)"
+
+  S100A12:
+    common_interpretation: "Neutrophil/Monocyte"
+    context_dependent:
+      organoid: "Likely misannotation - check epithelial stress"
+      primary_tissue: "Myeloid cell marker"
+    recommendation: "Check for CD14, FCGR3B to confirm myeloid identity"
+
+  LYZ:
+    common_interpretation: "Monocyte/Macrophage"
+    context_dependent:
+      organoid: "Could be Paneth cells (if intestinal) or secretory epithelial"
+      primary_tissue: "Myeloid cell marker"
+    recommendation: "Check tissue context and co-expression with CD14/CD68"
+
+# Immune cell type keywords for filtering
+immune_keywords:
+  - neutrophil
+  - monocyte
+  - macrophage
+  - t_cell
+  - b_cell
+  - nk_cell
+  - dendritic
+  - mast
+  - plasma
+  - lymphocyte
+
+# Epithelial cell type keywords
+epithelial_keywords:
+  - basal
+  - ciliated
+  - secretory
+  - club
+  - goblet
+  - at1
+  - at2
+  - alveolar
+  - epithelial
+  - keratinocyte

@@ -1,0 +1,236 @@
+# Agent Skills Configuration
+# Maps agent types to their base skills and discovery settings
+
+version: "1.0"
+
+# Global skill discovery settings
+discovery:
+  enabled: true
+  cache_duration_seconds: 300
+  skill_directory: ".claude/skills"
+
+# MCP (Model Context Protocol) tool settings
+mcp:
+  enabled: true
+  auto_discover: true
+  cache_duration_seconds: 600
+
+  # Available MCP servers
+  servers:
+    pubmed:
+      enabled: true
+      category: "biomedical_literature"
+      description: "PubMed literature search and retrieval"
+      tools:
+        - search_articles
+        - get_article_metadata
+        - get_full_text_article
+        - find_related_articles
+        - convert_article_ids
+        - lookup_article_by_citation
+        - get_copyright_status
+
+# Skill categories (matching Tier system)
+categories:
+  tier1_core:
+    - scanpy
+    - seurat
+    - scvi-tools
+    - anndata
+    - scanvi
+    - pseudobulk-deseq2
+    - pydeseq2
+    - celltype-annotation
+    - pathway-enrichment
+
+  tier2_communication:
+    - cellchat
+    - nichenet
+    - cellxgene-census
+
+  tier3_visualization:
+    - scientific-visualization
+    - scientific-visualization-r
+    - matplotlib
+    - seaborn
+    - scientific-writing
+    - scientific-schematics
+    - scientific-slides
+
+  tier4_supporting:
+    - biopython
+    - scientific-brainstorming
+    - scientific-critical-thinking
+    - transformers
+    - umap-learn
+    - pptx
+
+# Agent-specific skill assignments
+agents:
+  pipeline:
+    base_skills:
+      - scanpy
+      - scvi-tools
+      - anndata
+      - scientific-visualization
+      - scientific-slides
+
+    discovery_enabled: true
+    discovery_categories:
+      - tier1_core
+      - tier2_communication
+      - tier3_visualization
+
+    description: "Top-level orchestrator for complete scRNA-seq workflows"
+
+  annotation_coordinator:
+    base_skills:
+      - celltype-annotation
+      - scanpy
+      - anndata
+
+    discovery_enabled: true
+    discovery_categories:
+      - tier1_core
+
+    # MCP tool access for validation
+    mcp_discovery_enabled: true
+    mcp_servers:
+      - pubmed
+
+    description: "Coordinates multiple annotation specialists with MCP validation"
+
+  celltypist_specialist:
+    base_skills:
+      - scanpy
+      - celltype-annotation
+
+    discovery_enabled: false
+
+    description: "Deep learning-based cell type annotation"
+
+  sctype_specialist:
+    base_skills:
+      - scanpy
+      - celltype-annotation
+
+    discovery_enabled: false
+
+    description: "Marker-based cell type annotation"
+
+  literature_rag_specialist:
+    base_skills:
+      - biopython
+      - scanpy
+
+    discovery_enabled: true
+    discovery_categories:
+      - tier4_supporting
+
+    # MCP tool access (primary for this specialist)
+    mcp_discovery_enabled: true
+    mcp_servers:
+      - pubmed
+
+    description: "Literature-based marker validation with MCP PubMed access"
+
+  hematopoiesis_specialist:
+    base_skills:
+      - pathway-enrichment
+      - cellchat
+      - nichenet
+      - scientific-brainstorming
+
+    discovery_enabled: true
+    discovery_categories:
+      - tier2_communication
+      - tier4_supporting
+
+    # MCP tool access
+    mcp_discovery_enabled: true
+    mcp_servers:
+      - pubmed
+
+    description: "Blood/BM/spleen lineage expert with MCP literature access"
+
+  infection_inflammation_specialist:
+    base_skills:
+      - pathway-enrichment
+      - cellchat
+      - scientific-brainstorming
+
+    discovery_enabled: true
+    discovery_categories:
+      - tier2_communication
+      - tier4_supporting
+
+    # MCP tool access
+    mcp_discovery_enabled: true
+    mcp_servers:
+      - pubmed
+
+    description: "Infection and inflammatory response expert with MCP literature access"
+
+  aging_specialist:
+    base_skills:
+      - pathway-enrichment
+      - scientific-brainstorming
+
+    discovery_enabled: true
+    discovery_categories:
+      - tier1_core
+      - tier4_supporting
+
+    description: "Age-related changes expert"
+
+  cellstate_plasticity_specialist:
+    base_skills:
+      - pathway-enrichment
+      - nichenet
+      - scientific-brainstorming
+
+    discovery_enabled: true
+    discovery_categories:
+      - tier2_communication
+      - tier4_supporting
+
+    description: "Cell state and trajectory expert"
+
+  epithelial_specialist:
+    base_skills:
+      - pathway-enrichment
+      - scientific-brainstorming
+
+    discovery_enabled: true
+    discovery_categories:
+      - tier1_core
+      - tier4_supporting
+
+    description: "Epithelial lineage expert"
+
+  organoid_stemness_specialist:
+    base_skills:
+      - pathway-enrichment
+      - scientific-brainstorming
+
+    discovery_enabled: true
+    discovery_categories:
+      - tier1_core
+      - tier4_supporting
+
+    description: "Organoid and stem cell expert"
+
+# Skill permission requirements
+permissions:
+  required_in_settings:
+    - "Skill(scanpy)"
+    - "Skill(celltype-annotation)"
+    - "Skill(pathway-enrichment)"
+    - "Skill(scientific-visualization)"
+    - "Skill(pptx)"
+    - "Skill(scvi-tools)"
+    - "Skill(cellchat)"
+    - "Skill(nichenet)"
+    - "Skill(scientific-brainstorming)"
+
+  auto_approve: false  # Whether to automatically add permissions

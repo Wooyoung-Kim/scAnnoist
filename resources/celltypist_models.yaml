@@ -1,0 +1,120 @@
+# CellTypist Model Registry
+# Defines model selection based on tissue and sample type
+#
+# Selection priority:
+#   overrides(tissue|sample_type) > tissue > sample_type > default
+#
+# Model format: either model name from CellTypist repository or local path
+
+# Default model when no tissue/sample_type match
+default:
+  model: "Immune_All_High.pkl"
+  description: "Pan-immune model for general immune cell annotation"
+
+# Tissue-specific models
+tissue:
+  "Immune system":
+    model: "Immune_All_High.pkl"
+    description: "Comprehensive immune cell types"
+
+  "Spleen":
+    model: "Immune_All_High.pkl"
+    description: "Spleen immune populations"
+
+  "Bone marrow":
+    model: "Immune_All_High.pkl"
+    description: "Bone marrow hematopoietic cells"
+
+  "Lymph node":
+    model: "Immune_All_High.pkl"
+    description: "Lymph node immune cells"
+
+  "Blood":
+    model: "Immune_All_High.pkl"
+    description: "Peripheral blood mononuclear cells"
+
+  "Lung":
+    model: "Healthy_COVID19_PBMC.pkl"
+    description: "Lung tissue cells (using PBMC model as proxy)"
+
+  "Liver":
+    model: "Immune_All_High.pkl"
+    description: "Liver immune cells"
+
+  "Kidney":
+    model: "Immune_All_High.pkl"
+    description: "Kidney immune cells"
+
+  "Heart":
+    model: "Immune_All_High.pkl"
+    description: "Cardiac immune cells"
+
+  "Brain":
+    model: "Immune_All_High.pkl"
+    description: "Brain immune cells (microglia, etc.)"
+
+  "Gut":
+    model: "Immune_All_High.pkl"
+    description: "Gut-associated lymphoid tissue"
+
+  "Intestine":
+    model: "Immune_All_High.pkl"
+    description: "Intestinal immune cells"
+
+  "Skin":
+    model: "Immune_All_High.pkl"
+    description: "Skin-resident immune cells"
+
+  "Thymus":
+    model: "Immune_All_High.pkl"
+    description: "Thymic T cell development"
+
+  "Pancreas":
+    model: "Immune_All_High.pkl"
+    description: "Pancreatic immune infiltrates"
+
+# Sample type-specific models (optional)
+sample_type:
+  "PBMC":
+    model: "Healthy_COVID19_PBMC.pkl"
+    description: "Peripheral blood mononuclear cells"
+
+  "whole blood":
+    model: "Healthy_COVID19_PBMC.pkl"
+    description: "Whole blood samples"
+
+  "tumor":
+    model: "Immune_All_High.pkl"
+    description: "Tumor-infiltrating immune cells"
+
+  "organoid":
+    model: "Immune_All_High.pkl"
+    description: "Organoid-derived cells"
+
+# Overrides: tissue|sample_type combinations
+# Use pipe "|" to separate tissue and sample_type
+overrides:
+  "Lung|tumor":
+    model: "Immune_All_High.pkl"
+    description: "Lung tumor-infiltrating lymphocytes"
+
+  "Blood|PBMC":
+    model: "Healthy_COVID19_PBMC.pkl"
+    description: "Blood PBMC samples"
+
+  "Spleen|tumor":
+    model: "Immune_All_High.pkl"
+    description: "Spleen with tumor metastasis"
+
+# Additional available models (for reference)
+# Users can add these to tissue/sample_type mappings as needed:
+#
+# - Immune_All_Low.pkl: Lower resolution immune model
+# - Immune_All_High.pkl: High resolution immune model
+# - Healthy_COVID19_PBMC.pkl: COVID-19 PBMC model
+# - Human_Lung_Atlas.pkl: Human lung atlas (if available)
+# - Cells_Intestinal_Tract.pkl: Intestinal cells (if available)
+# - Developing_Human_Thymus.pkl: Thymic development (if available)
+#
+# To use custom models, specify absolute path instead of model name:
+#   model: "/path/to/custom_model.pkl"

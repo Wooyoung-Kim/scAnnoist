@@ -1,0 +1,105 @@
+# Default cell type markers for scRNA-seq annotation
+# Tissue-specific markers take precedence over default markers
+
+markers:
+  # Default markers (used when no tissue-specific markers available)
+  default:
+    # Immune cells
+    T_cell: [CD3D, CD3E, CD3G]
+    CD4_T_cell: [CD3D, CD4, IL7R]
+    CD8_T_cell: [CD3D, CD8A, CD8B]
+    NK_cell: [NKG7, GNLY, KLRD1]
+    B_cell: [CD79A, CD79B, MS4A1]
+    Plasma_cell: [JCHAIN, MZB1, SDC1]
+    Monocyte: [CD14, LYZ, S100A9]
+    Macrophage: [CD68, CD163, MARCO]
+    Dendritic_cell: [FCER1A, CD1C, CLEC9A]
+    Mast_cell: [KIT, TPSAB1, CPA3]
+    Neutrophil: [S100A8, S100A9, CSF3R]
+
+    # Epithelial cells
+    Epithelial: [EPCAM, KRT18, KRT19]
+    Basal_cell: [KRT5, KRT14, TP63]
+
+    # Stromal cells
+    Fibroblast: [COL1A1, COL1A2, DCN]
+    Endothelial: [PECAM1, VWF, CDH5]
+    Smooth_muscle: [ACTA2, MYH11, TAGLN]
+    Pericyte: [RGS5, PDGFRB, NOTCH3]
+
+    # Other
+    Erythrocyte: [HBA1, HBA2, HBB]
+    Platelet: [PPBP, PF4, GP9]
+
+  # Lung-specific markers
+  lung:
+    AT1: [AGER, PDPN, CAV1, HOPX]
+    AT2: [SFTPC, SFTPB, SFTPA1, SLC34A2]
+    Club_cell: [SCGB1A1, SCGB3A1]
+    Ciliated_cell: [FOXJ1, TPPP3, PIFO, DNAH5]
+    Goblet_cell: [MUC5B, MUC5AC, SPDEF]
+    Ionocyte: [CFTR, FOXI1, ASCL3]
+    Neuroendocrine: [CHGA, SYP, ASCL1]
+    Alveolar_macrophage: [MARCO, FABP4, MCEMP1]
+
+  # Liver-specific markers
+  liver:
+    Hepatocyte: [ALB, APOA1, HP, CYP3A4]
+    Cholangiocyte: [KRT19, EPCAM, SOX9]
+    Kupffer_cell: [CD68, MARCO, VSIG4]
+    Stellate_cell: [ACTA2, COL1A1, DES]
+    LSEC: [PECAM1, LYVE1, STAB2]
+
+  # Kidney-specific markers
+  kidney:
+    Proximal_tubule: [SLC34A1, LRP2, CUBN]
+    Loop_of_Henle: [SLC12A1, UMOD]
+    Distal_tubule: [SLC12A3, CALB1]
+    Collecting_duct_principal: [AQP2, FXYD4]
+    Collecting_duct_intercalated: [ATP6V1B1, SLC26A4]
+    Podocyte: [NPHS1, NPHS2, WT1]
+    Mesangial: [PDGFRB, ITGA8]
+
+  # Intestine-specific markers
+  intestine:
+    Enterocyte: [FABP2, APOA4, SLC5A1]
+    Goblet_cell: [MUC2, TFF3, SPDEF]
+    Paneth_cell: [LYZ, DEFA5, REG3A]
+    Enteroendocrine: [CHGA, SYP, GCG]
+    Stem_cell: [LGR5, OLFM4, ASCL2]
+    Tuft_cell: [DCLK1, TRPM5, POU2F3]
+
+  # Brain-specific markers
+  brain:
+    Neuron: [RBFOX3, SYT1, SNAP25]
+    Astrocyte: [GFAP, AQP4, SLC1A3]
+    Oligodendrocyte: [MBP, MOG, OLIG2]
+    Microglia: [CX3CR1, P2RY12, TMEM119]
+    OPC: [PDGFRA, CSPG4, OLIG2]
+
+  # Skin-specific markers
+  skin:
+    Keratinocyte: [KRT1, KRT10, IVL]
+    Melanocyte: [PMEL, MLANA, TYR]
+    Langerhans: [CD207, CD1A, EPCAM]
+    Sebocyte: [PPARG, FASN, SCD]
+
+  # Heart-specific markers
+  heart:
+    Cardiomyocyte: [TNNT2, MYH7, ACTC1]
+    Cardiac_fibroblast: [DDR2, PDGFRA, COL1A1]
+    Cardiac_endothelial: [PECAM1, CDH5, NPR3]
+
+  # Airway-specific markers (for respiratory epithelium)
+  airway:
+    Ciliated_cell: [FOXJ1, DNAH5, TPPP3, HYDIN]
+    Secretory_cell: [SCGB1A1, MUC5B, MUC5AC]
+    Basal_cell: [KRT5, TP63, NGFR]
+    Goblet_cell: [MUC5AC, MUC5B, SPDEF]
+    Club_cell: [SCGB1A1, SCGB3A2]
+
+# Annotation settings
+settings:
+  min_markers_expressed: 2       # Minimum markers that must be expressed
+  min_expression_threshold: 0.5  # Minimum mean expression (log-normalized)
+  score_method: "mean"           # How to calculate score: "mean" or "sum"
